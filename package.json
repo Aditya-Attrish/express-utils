@@ -1,0 +1,30 @@
+{
+  "name": "express-utils",
+  "version": "1.0.0",
+  "description": "A collection of utility functions for Express.js applications",
+  "main": "./src/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aditya-Attrish/express-utils.git"
+  },
+  "keywords": [
+    "express",
+    "utils",
+    "error-handling",
+    "async",
+    "api"
+  ],
+  "author": "Aditya Attrish <aditayaattrish@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Aditya-Attrish/express-utils/issues"
+  },
+  "homepage": "https://github.com/Aditya-Attrish/express-utils#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
