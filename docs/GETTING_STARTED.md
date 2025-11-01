@@ -64,7 +64,6 @@ Standardized success response formatter.
 
 Parameters:
 - data (any): Response data (default: null)
-
 - message (string): Success message (default: 'Success')
 - metadata (object): Additional metadata (default: {})
 
