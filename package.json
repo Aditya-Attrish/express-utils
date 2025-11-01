@@ -7,9 +7,9 @@
   "files": [
     "docs/",
     "src/",
-    ".gitignore",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "package.json"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,8 +22,12 @@
     "express",
     "utils",
     "error-handling",
+    "async-handler",
     "async",
-    "api"
+    "await",
+    "api",
+    "api-format",
+    "response-format"
   ],
   "author": "Aditya Attrish <aditayaattrish@gmail.com>",
   "license": "MIT",
@@ -33,5 +37,9 @@
   "homepage": "https://github.com/Aditya-Attrish/express-api-utils#readme",
   "engines": {
     "node": ">=14.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

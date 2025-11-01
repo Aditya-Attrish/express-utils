@@ -29,7 +29,7 @@ app.get('/users/:id', asyncHandler(async (req, res) => {
     throw APIError.notFound('User not found');
   }
   
-  res.json(APIResponse.success(user));
+  return new APIResponse(user).send(res);
 }));
 ```
 
@@ -63,6 +63,7 @@ throw APIError.validationError('Invalid input', {
 Standardized success response formatter.
 
 Parameters:
+- statusCode (Number) Response status code (default: 200)
 - data (any): Response data (default: null)
 - message (string): Success message (default: 'Success')
 - metadata (object): Additional metadata (default: {})
@@ -70,21 +71,7 @@ Parameters:
 #### Example
 static Methods
 ```js
-// Basic success
-res.json(APIResponse.success(user));
-
-// With custom message
-res.json(APIResponse.success(user, 'User retrieved successfully'));
-
-// Created response (201)
-res.status(201).json(APIResponse.created(newUser));
-
-// Paginated data
-res.json(APIResponse.paginated(
-  users,
-  { page: 1, limit: 10, total: 150, pages: 15 },
-  'Users retrieved successfully'
-));
+return new APIResponse().send(res)
 ```
 
 ### errorHandler
@@ -107,13 +94,12 @@ app.use(errorHandler);
 ### Success Response
 ```json
 {
-  "success": true,
-  "data": {
-    "id": 1,
-    "name": "John Doe",
-    "email": "john@example.com"
-  },
-  "message": "User retrieved successfully"
+  "statusCode": 200,  # default 200 status code
+  "success": true,    
+  "data": null,            # default null
+  "message": "Success",  # default message
+  "metadata": {},          # default empty object
+  "timestamp": "timestamp"  # current date
 }
 ```
 
