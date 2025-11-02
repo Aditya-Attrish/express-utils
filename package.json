@@ -5,7 +5,6 @@
   "main": "./src/index.js",
   "type": "module",
   "files": [
-    "docs/",
     "src/",
     "LICENSE",
     "README.md",
@@ -20,6 +19,7 @@
   },
   "keywords": [
     "express",
+    "express-api-utils",
     "utils",
     "error-handling",
     "async-handler",

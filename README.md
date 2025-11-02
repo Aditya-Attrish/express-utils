@@ -11,7 +11,7 @@ A collection of utility functions for Express.js applications including error ha
 -  **🚀 asyncHandler** - Clean async/await error handling
 -  **🛡️ APIError** - Standardized error classes
 - **📦 APIResponse** - Consistent API responses
-- **🔧 errorHandler** - Global error handling middleware
+- **🔧 errorHandler** - Global error handling middleware that handle Mongoose validation error, Mongoose duplicate key error, jwt token validation error, jwt token expire error, internet error.
 
 ## 🚀 Quick Start
 
@@ -22,7 +22,7 @@ npm install express-api-utils
 
 ### Example
 ```js
-import { asyncHandler, APIError, APIResponse } from 'express-api-utils';
+import { asyncHandler, APIError, APIResponse, errorHandler } from 'express-api-utils';
 import express from 'express';
 
 const app = express();
@@ -30,20 +30,21 @@ const app = express();
 app.get('/users/:id', asyncHandler(async (req, res) => {
   const user = await getUserById(req.params.id);
   if (!user) throw APIError.notFound('User not found');
-  return new APIResponse(user).send(res)
+  return new APIResponse(user).send(res);
 }));
+app.use(errorHandler);
 ```
 
 ```json
 {
-    "statusCode": 200,  # default 200 status code
+    "statusCode": 200,  // default 200 status code
     "success": true,    
-    "data": {            # default null
+    "data": {            // default null
         "id":1
     },
-    "message": "Success",  # default message
-    "metadata": {},          # default empty object
-    "timestamp": "timestamp"  # current date
+    "message": "Success",  // default message
+    "metadata": {},          // default empty object
+    "timestamp": "timestamp"  // current date
 }
 ```
 
