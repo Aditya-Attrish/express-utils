@@ -8,7 +8,11 @@ npm install express-utils
 ## Usage
 
 ```js
-import { asyncHandler, APIError, APIResponse, errorHandler } from 'express-utils';
+import { asyncHandler, APIError, APIResponse, errorHandler } from 'express-api-utils';
+```
+
+```js
+const { asyncHandler, APIResponse, APIError, errorHandler } = require('express-api-utils');
 ```
 
 ### API Reference
@@ -94,12 +98,12 @@ app.use(errorHandler);
 ### Success Response
 ```json
 {
-  "statusCode": 200,  # default 200 status code
+  "statusCode": 200,
   "success": true,    
-  "data": null,            # default null
-  "message": "Success",  # default message
-  "metadata": {},          # default empty object
-  "timestamp": "timestamp"  # current date
+  "data": null,
+  "message": "Success",
+  "metadata": {},
+  "timestamp": "timestamp"
 }
 ```
 

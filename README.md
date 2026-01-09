@@ -1,57 +1,141 @@
-# Express API Utils 🚀
+# express-api-utils — small, predictable helpers for Express APIs 🚀
 
 [![npm version](https://img.shields.io/npm/v/express-api-utils.svg)](https://www.npmjs.com/package/express-api-utils)
 [![Downloads](https://img.shields.io/npm/dm/express-api-utils.svg)](https://www.npmjs.com/package/express-api-utils)
 [![Bundle Size](https://img.shields.io/bundlephobia/min/express-api-utils)](https://bundlephobia.com/package/express-api-utils)
-[![License](https://img.shields.io/npm/l/express-api-utils.svg)](https://github.com/your-username/express-api-utils/LICENSE)
+[![License](https://img.shields.io/npm/l/express-api-utils.svg)](LICENSE)
 
-A collection of utility functions for Express.js applications including error handling, async middleware, and standardized API responses. Now, for only modulejs.
+Fast, minimal utilities to standardize API responses and error handling in Express applications. Designed for modern Node (ESM-friendly) and zero ceremony integration.
 
-## Features
--  **🚀 asyncHandler** - Clean async/await error handling
--  **🛡️ APIError** - Standardized error classes
-- **📦 APIResponse** - Consistent API responses
-- **🔧 errorHandler** - Global error handling middleware that handle Mongoose validation error, Mongoose duplicate key error, jwt token validation error, jwt token expire error, internet error.
+Why use this package?
+- Small focused API (asyncHandler, APIError, APIResponse, errorHandler). Minimal surface area to learn.
+- Works with async/await and Express error middleware patterns.
+- Provides a consistent, JSON-first response shape for success and errors—great for frontend teams and API consumers.
 
-## 🚀 Quick Start
+Table of contents
+- Installation
+- Quick start
+- Examples (ESM)
+- API reference
+- Migration notes
+- Contributing & Support
 
-### Installation
+Installation
+
+Install from npm:
+
 ```bash
 npm install express-api-utils
 ```
 
-### Example
+Quick start (ESM)
+
 ```js
-import { asyncHandler, APIError, APIResponse, errorHandler } from 'express-api-utils';
 import express from 'express';
+import { asyncHandler, APIError, APIResponse, errorHandler } from 'express-api-utils';
 
 const app = express();
 
 app.get('/users/:id', asyncHandler(async (req, res) => {
-  const user = await getUserById(req.params.id);
+  const user = await getUserById(req.params.id); // your DB call
   if (!user) throw APIError.notFound('User not found');
   return new APIResponse(user).send(res);
 }));
+
+// register last
 app.use(errorHandler);
+
+app.listen(3000);
 ```
+
+Quick start (CommonJS)
+
+```js
+const express = require('express');
+const { asyncHandler, APIError, APIResponse, errorHandler } = require('express-api-utils');
+
+const app = express();
+
+app.get('/ping', asyncHandler(async (req, res) => {
+  return new APIResponse({ ping: 'pong' }).send(res);
+}));
+
+app.use(errorHandler);
+
+app.listen(3000);
+```
+
+What you'll get
+- Consistent success response shape:
 
 ```json
 {
-    "statusCode": 200,  // default 200 status code
-    "success": true,    
-    "data": {            // default null
-        "id":1
-    },
-    "message": "Success",  // default message
-    "metadata": {},          // default empty object
-    "timestamp": "timestamp"  // current date
+  "statusCode": 200,
+  "success": true,
+  "data": {...},
+  "message": "Success",
+  "metadata": {},
+  "timestamp": "2025-11-05T...Z"
 }
 ```
 
-## [Getting started](./docs/GETTING_STARTED.md)
+- Error responses normalized via `APIError` and the global `errorHandler`. 400/401/404/500 handled consistently.
 
-## Contributing
-Contributions are welcome! Please feel free to submit a Pull Request.
+API reference
 
-## License
+- asyncHandler(fn)
+  - Wraps async route handlers and forwards any thrown errors to next(). Usage: `app.get('/', asyncHandler(async (req,res)=>{}))`.
+
+- APIError
+  - Factory for error responses and helper constructors (e.g. `APIError.notFound('message')`, `APIError.unauthorized('...')`). Contains status code and payload.
+
+- APIResponse
+  - Small helper to build/send consistent success responses. Example: `new APIResponse(data, { message:'Fetched' }).send(res)`.
+
+- errorHandler
+  - Express error middleware. Convert thrown errors (including `APIError`) into JSON responses. Attach at the end of middleware chain.
+
+Examples and tips
+
+- Throwing a not-found error:
+
+```js
+if (!row) throw APIError.notFound('User not found');
+```
+
+- Returning a paginated response:
+
+```js
+const resp = new APIResponse(data, { message: 'List', metadata: { page, pageSize, total } });
+resp.send(res);
+```
+
+Customization
+
+The package is intentionally small; if you want different shapes, wrap `APIResponse` or write a tiny adapter around `errorHandler` to transform errors to your preferred schema.
+
+Migration notes
+
+- The package is ESM-ready and also supports CommonJS `require()`.
+- If you previously used a custom error middleware, move `app.use(errorHandler)` to the end of your middleware chain.
+
+Contributing
+
+Contributions, issues, and feature requests are welcome. A great first contribution is adding an example under an `examples/` folder.
+
+Guidelines
+- Fork the repo, open a feature branch, and send a PR.
+- Run any existing tests and add a small test when fixing a bug.
+
+Support & sponsorship
+
+If this package saved you time, consider starring the repo or sponsoring future work.
+
+License
+
 MIT © Aditya Attrish
+
+Links
+- Getting started guide: `./docs/GETTING_STARTED.md`
+- Source: repository root
+

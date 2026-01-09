@@ -1,6 +1,8 @@
 # Development files
+src/
 .gitignore
 
 # Documentation
 doc/
+test/
 *.md
